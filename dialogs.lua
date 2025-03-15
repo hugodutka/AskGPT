@@ -95,18 +95,14 @@ local function showChatGPTDialog(ui, highlightedText, message_history)
         showLoadingDialog()
 
         UIManager:scheduleIn(0.1, function()
-          local context_message = {
+          local formatted_message = {
             role = "user",
-            content = "I'm reading something titled '" .. title .. "' by " .. author ..
-              ". I have a question about the following highlighted text: " .. highlightedText
+            content = "I'm reading something titled '" .. title .. "' by " .. author .. ".\n\n" ..
+                      "I have a question about the following highlighted text:\n\n" ..
+                      "```\n" .. highlightedText .. "\n```\n\n" ..
+                      "My question is: " .. question
           }
-          table.insert(message_history, context_message)
-
-          local question_message = {
-            role = "user",
-            content = question
-          }
-          table.insert(message_history, question_message)
+          table.insert(message_history, formatted_message)
 
           local answer = queryChatGPT(message_history)
           local answer_message = {
