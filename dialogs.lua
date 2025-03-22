@@ -16,10 +16,13 @@ else
   print("configuration.lua not found, skipping...")
 end
 
-local function translateText(text, target_language)
+local function translateText(text, author, title, target_language)
+  local formatted_content = "I'm reading something titled '" .. title .. "' by " .. author .. ".\n\n" ..
+                      "Please translate the following highlighted text to " .. target_language .. ":\n\n" ..
+                      "```\n" .. text .. "\n```\n\n"
   local translation_message = {
     role = "user",
-    content = "Translate the following text to " .. target_language .. ": " .. text
+    content = formatted_content
   }
   local translation_history = {
     {
@@ -127,12 +130,12 @@ local function showChatGPTDialog(ui, highlightedText, message_history)
 
   if CONFIGURATION and CONFIGURATION.features and CONFIGURATION.features.translate_to then
     table.insert(buttons, {
-      text = _("Translate"),
+      text = _("Translate GPT"),
       callback = function()
         showLoadingDialog()
 
         UIManager:scheduleIn(0.1, function()
-          local translated_text = translateText(highlightedText, CONFIGURATION.features.translate_to)
+          local translated_text = translateText(highlightedText, author, title, CONFIGURATION.features.translate_to)
 
           local formatted_content = "I'm reading something titled '" .. title .. "' by " .. author .. ".\n\n" ..
                       "Please translate the following highlighted text to " .. CONFIGURATION.features.translate_to .. ":\n\n" ..
