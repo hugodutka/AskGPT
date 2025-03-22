@@ -130,7 +130,7 @@ local function showChatGPTDialog(ui, highlightedText, message_history)
 
   if CONFIGURATION and CONFIGURATION.features and CONFIGURATION.features.translate_to then
     table.insert(buttons, {
-      text = _("Translate GPT"),
+      text = _("Translate"),
       callback = function()
         showLoadingDialog()
 
