@@ -134,9 +134,13 @@ local function showChatGPTDialog(ui, highlightedText, message_history)
         UIManager:scheduleIn(0.1, function()
           local translated_text = translateText(highlightedText, CONFIGURATION.features.translate_to)
 
+          local formatted_content = "I'm reading something titled '" .. title .. "' by " .. author .. ".\n\n" ..
+                      "Please translate the following highlighted text to " .. CONFIGURATION.features.translate_to .. ":\n\n" ..
+                      "```\n" .. highlightedText .. "\n```\n\n"
+
           table.insert(message_history, {
             role = "user",
-            content = "Translate to " .. CONFIGURATION.features.translate_to .. ": " .. highlightedText
+            content = formatted_content
           })
 
           table.insert(message_history, {
